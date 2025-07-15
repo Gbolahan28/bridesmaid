@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Bridesmaid?</title>
+    <meta name="description"
+        content="A special invitation for my beautiful friends – will you join me as my bridesmaid and be part of my bridal squad? 💖">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Great+Vibes&display=swap"
+        rel="stylesheet">
+
+
+</head>
+
+<body>
+    <div class="container">
+        <img src="images/FAVOR AND GBOLAHAN (1).svg" alt="Couple" class="couple-svg" />
+
+        <div id="initial-page">
+            <h1>I found my man but I still need you.</h1>
+            <h2>Will you be my bridesmaid and Aso-ebi girls?</h2>
+
+            <div class="question">
+                <div class="options">
+                    <button class="cta-btn" id="cta-toggle">💖 Let's Go babes</button>
+                </div>
+            </div>
+
+        <div id="form-page" class="hidden">
+            <h1>Bridesmaid Details</h1>
+
+            <form id="bridesmaid-form">
+                <div class="question">
+                    <label for="name">What’s your name, beautiful?</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required>        
+                </div>
+                <div class="question">
+                    <label for="dress-budget">How much are you willing or able to spend on a bridesmaid dress?</label>
+                    <select id="dress-budget" name="dress-budget" required>
+                        <option value="" disabled selected>Select your budget range</option>
+                        <option value="15000-20000">₦25,000 – ₦35,000</option>
+                        <option value="20000-25000">₦35,000 – ₦45,000</option>
+                        <option value="25000-30000">₦45,000 – ₦55,000</option>
+                        <option value="30000-35000">₦55,000 – ₦65,000</option>
+                        <option value="35000-plus">Above ₦65,000</option>
+                    </select>
+                </div>
+                  
+
+                <div class="question">
+                    <label>Will you be doing your makeup yourself or would you prefer I provide a professional makeup
+                        service?</label>
+                    <select id="makeup-option" name="makeup-option" required>
+                        <option value="" disabled selected>Select an option</option>
+                        <option value="self">I'll do my own makeup</option>
+                        <option value="professional">I'd like you to provide a make-up artist</option>
+                    </select>
+                </div>
+
+                <div class="question">
+                    <label for="makeup-budget">How much are you willing to pay for the makeup?</label>
+                    <select id="makeup-budget" name="makeup-budget" required>
+                        <option value="" disabled selected>Select your makeup budget</option>
+                        <option value="5000-10000">₦10,000 – ₦20,000</option>
+                        <option value="10000-15000">₦20,000 – ₦30,000</option>
+                        <option value="15000-20000">₦30,000 – ₦40,000</option>
+                        <option value="20000-plus">Above ₦40,000</option>
+                    </select>
+                </div>
+                  
+
+                <div class="question">
+                    <label>Will you be lodging at the hotel with me a night before the event?</label>
+                    <div class="options">
+                        <button type="button" class="btn lodging-btn" data-value="yes">Yes</button>
+                        <button type="button" class="btn btn-no lodging-btn" data-value="no">No</button>
+                    </div>
+                    <input type="hidden" id="lodging" name="lodging" required>
+                </div>
+
+                <div class="question">
+                    <label>Would you want to have breakfast the morning before the event?</label>
+                    <div class="options">
+                        <button type="button" class="btn breakfast-btn" data-value="yes">Yes</button>
+                        <button type="button" class="btn btn-no breakfast-btn" data-value="no">No</button>
+                    </div>
+                    <input type="hidden" id="breakfast" name="breakfast" required>
+                </div>
+
+                <button type="submit" class="btn submit-btn">Submit</button>
+            </form>
+        </div>
+
+        <div id="success-page" class="hidden">
+            <div class="thank-you">Thank you, <span id="bride-name"></span>, for accepting! 💖</div>
+            <p>I'm so excited to have you as part of my bridal party! I'll be in touch with more details soon.</p>
+        </div>          
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctaToggle = document.getElementById('cta-toggle');
+            const formPage = document.getElementById('form-page');
+            const successPage = document.getElementById('success-page');
+            const form = document.getElementById('bridesmaid-form');
+
+            // Lodging & breakfast buttons
+            const lodgingBtns = document.querySelectorAll('.lodging-btn');
+            const breakfastBtns = document.querySelectorAll('.breakfast-btn');
+
+            // ✅ Toggle form visibility
+            ctaToggle.addEventListener('click', function () {
+                const isHidden = formPage.classList.contains('hidden');
+                if (isHidden) {
+                    formPage.classList.remove('hidden');
+                    ctaToggle.textContent = '❌ Close Form';
+                } else {
+                    formPage.classList.add('hidden');
+                    ctaToggle.textContent = '💖 Let’s Go babes';
+                }
+            });
+
+            // ✅ Lodging selection
+            lodgingBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    lodgingBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    document.getElementById('lodging').value = this.dataset.value;
+                });
+            });
+
+            // ✅ Breakfast selection
+            breakfastBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    breakfastBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    document.getElementById('breakfast').value = this.dataset.value;
+                });
+            });
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault(); // Stop default submit
+
+                // ✅ Get all values
+                const name = document.getElementById('name').value.trim();
+                const dressBudget = document.getElementById('dress-budget').value;
+                const makeupOption = document.getElementById('makeup-option').value;
+                const makeupBudget = document.getElementById('makeup-budget').value;
+                const lodging = document.getElementById('lodging').value;
+                const breakfast = document.getElementById('breakfast').value;
+
+                // ✅ Validate all fields
+                if (!name || !dressBudget || !makeupOption || !makeupBudget || !lodging || !breakfast) {
+                    alert("💖 Please fill in all fields before submitting.");
+                    return;
+                }
+
+                // ✅ Jotform submission URL
+                const jotformURL = "https://submit.jotform.com/submit/251955918491066/";
+
+                // ✅ Prepare data for Jotform (MUST be inside this handler)
+                const jotformData = new URLSearchParams({
+                    "q6_name": name,
+                    "q7_dressBudget": dressBudget,
+                    "q8_makeupOption": makeupOption,
+                    "q10_makeupBudget": makeupBudget,
+                    "q15_lodging": lodging === "yes" ? "Yes" : "No",
+                    "q16_breakfast": breakfast === "yes" ? "Yes" : "No"
+                });
+
+                // ✅ Send data to Jotform
+                fetch(jotformURL, {
+                    method: "POST",
+                    body: jotformData
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log("✅ Sent to Jotform:", data);
+
+                        // ✅ Show personalized success message
+                        document.getElementById('bride-name').textContent = name;
+                        formPage.classList.add('hidden');
+                        successPage.classList.remove('hidden');
+                        ctaToggle.textContent = '💖 Let’s Go babes';
+                    })
+                    .catch(error => {
+                        console.error("❌ Jotform error:", error);
+                        alert("Something went wrong while submitting. Please try again.");
+                    });
+            });
+        });
+    </script>
+      
+      
+</body>
+
+</html>
